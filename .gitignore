@@ -1,0 +1,7 @@
+syntax: glob
+.idea
+*.pyc
+*.pyo
+*.py~
+*.rar
+*.zip
