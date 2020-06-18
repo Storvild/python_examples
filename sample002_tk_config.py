@@ -1,11 +1,18 @@
 """
-    Самая простая программа tkinter с пустым окном
+    Основные настройки окна
 """
 
 import tkinter
 
 app = tkinter.Tk()
 
-#app.geometry('350x300')
+# Размер окна при открытии
+app.geometry('350x300')
+# Минимальный размер окна
+app.minsize(200,200)
+# Заголовок
+app.title('Заголовок окна')
+# Иконка приложения
+#app.iconbitmap('MyIcon.ico')
 
 app.mainloop()
