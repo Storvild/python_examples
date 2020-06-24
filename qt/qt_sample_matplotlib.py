@@ -25,11 +25,16 @@ class MainWindow(QtWidgets.QMainWindow):
         layout = QtWidgets.QVBoxLayout() #было self
         layout.addWidget(label)
         
+        #qwidget = QtWidgets.QWidget
+        #layout.addWidget(qwidget)
+        
         fig = Figure(figsize=(5, 4), dpi=100)
         canvas = FigureCanvasQTAgg(fig)
         canvas.axes = fig.add_subplot(111)
         canvas.axes.grid()
         canvas.setParent(self)
+        
+        
         #layout.addWidget(canvas)
         #canvas.show()
         
@@ -49,7 +54,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #self.canvas = FigureCanvasQTAgg(fig)
         
         #self.addWidget(self.canvas)
-        #self.toolbar = NavigationToolbar2QT(self.canvas, self)
+        self.toolbar = NavigationToolbar2QT(canvas, self)
         self.show()
         
         
