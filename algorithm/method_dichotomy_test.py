@@ -1,92 +1,156 @@
 #!e:\virtualenvs\envs\env36_01\Scripts\python.exe
-import sys
+import sys, os
 #sys.path.insert(1, r'e:\virtualenvs\envs\env36_01\Lib\site-packages')
-from hypothesis import given
+from hypothesis import given, settings
 import hypothesis.strategies as st
+import hypothesis.provisional as provisional
 import unittest
 from method_dichotomy import dichotomy_find_idx, sequence_find_idx
 
+curdir = os.path.abspath(os.path.dirname(__file__))
+#os.chdir(curdir)
+print(curdir)
 
 class TestDichotomyFind(unittest.TestCase):
 
-    #@unittest.skip('test')
+    @unittest.skip('test')
+    #@settings(database=None)
     @given(st.lists(st.integers()), st.integers())
     def test_dichotomy_find_idx_int(self, arr, val):
         # Тест со значениями массива int, и поисковое значение тоже int
-        res = dichotomy_find_idx(arr, val, sorting=True)
+        arr = sorted(arr)
+        res = dichotomy_find_idx(arr, val)
         if arr is None or arr == []:
             self.assertIsNone(res)
         else:
             self.assertGreaterEqual(res, 0)
-            #self.assertGreaterEqual(arr[res], val)
             self.assertIsInstance(res, int)
-            
-    #@unittest.skip('test')
-    @given(st.lists(st.floats()), st.floats())
+            if res > 0:
+                self.assertLessEqual(arr[res-1], val)
+            if res < len(arr)-1:
+                self.assertGreaterEqual(arr[res+1], val)
+            #self.assertGreaterEqual(arr[res], val)
+
+    @unittest.skip('test')
+    @given(st.lists(st.floats(allow_nan=False, allow_infinity=False)), st.floats(allow_nan=False, allow_infinity=False))
     def test_dichotomy_find_idx_float(self, arr, val):
         # Тест со значениями массива float, и поисковое значение тоже float
-        res = dichotomy_find_idx(arr, val, sorting=True)
+        arr = sorted(arr)
+        res = dichotomy_find_idx(arr, val)
         if arr is None or arr == []:
             self.assertIsNone(res)
         else:
             self.assertGreaterEqual(res, 0)
-            self.assertIsInstance(res, int)
-            
-    #@unittest.skip('test')
+            if res > 0:
+                self.assertLessEqual(arr[res-1], val)
+            if res < len(arr)-1:
+                self.assertGreaterEqual(arr[res+1], val)
+
+    @unittest.skip('test')
     @given(st.lists(st.datetimes()), st.datetimes())
     def test_dichotomy_find_idx_datetime(self, arr, val):
         # Тест со значениями массива float, и поисковое значение тоже float
+        arr = sorted(arr)
         res = dichotomy_find_idx(arr, val, sorting=True)
         if arr is None or arr == []:
             self.assertIsNone(res)
         else:
             self.assertGreaterEqual(res, 0)
-            
-    #@unittest.skip('test')
+            if res > 0:
+                self.assertLessEqual(arr[res-1], val)
+            if res < len(arr)-1:
+                self.assertGreaterEqual(arr[res+1], val)
+
+    @unittest.skip('test')
     @given(val=st.datetimes())
     def test_dichotomy_find_idx_datetime(self, val):
         # Тест с подготовленным массивом
         from method_dichotomy_data import wheellog_data
         #arr = [-1, 2, 5, 10, 100, 1020]
         arr = wheellog_data
-        res = dichotomy_find_idx(arr, val, sorting=True)
+        res = dichotomy_find_idx(arr, val)
         if arr is None or arr == []:
             self.assertIsNone(res)
         else:
             self.assertGreaterEqual(res, 0)
+            if res > 0:
+                self.assertLessEqual(arr[res-1], val)
+            if res < len(arr)-1:
+                self.assertGreaterEqual(arr[res+1], val)
 
 
 class TestSequenceFind(unittest.TestCase):
-    #@unittest.skip('test')        
+    @unittest.skip('test')
     @given(st.lists(st.integers()), st.integers())
-    def test_sequence_find_idx_datetime(self, arr, val):
-        res = sequence_find_idx(arr, val, sorting=True)
+    def test_sequence_find_idx_integer(self, arr, val):
+        arr = sorted(arr)
+        res = sequence_find_idx(arr, val)
         if arr is None or arr == []:
             self.assertIsNone(res)
         else:
             self.assertGreaterEqual(res, 0)
+            if res > 0:
+                self.assertLessEqual(arr[res-1], val)
+            if res < len(arr)-1:
+                self.assertGreaterEqual(arr[res+1], val)
 
+    #@unittest.skip('test')
+    @settings(max_examples=10)
+    @given(st.lists(st.datetimes()), st.datetimes())
+    def test_sequence_find_idx_datetime(self, arr, val):
+        arr = sorted(arr)
+        res = sequence_find_idx(arr, val)
+        if arr is None or arr == []:
+            self.assertIsNone(res)
+        else:
+            self.assertGreaterEqual(res, 0)
+            if res > 0:
+                self.assertLessEqual(arr[res-1], val)
+            if res < len(arr)-1:
+                self.assertGreaterEqual(arr[res+1], val)
+
+    @unittest.skip('test')
+    @given(val=st.datetimes())
+    def test_sequence_find_idx_datetime_wheellog(self, val):
+        # Тест с подготовленным массивом
+        from method_dichotomy_data import wheellog_data
+        #arr = [-1, 2, 5, 10, 100, 1020]
+        arr = wheellog_data
+        res = sequence_find_idx(arr, val)
+        if arr is None or arr == []:
+            self.assertIsNone(res)
+        else:
+            self.assertGreaterEqual(res, 0)
+            if res > 0:
+                self.assertLessEqual(arr[res-1], val)
+            if res < len(arr)-1:
+                self.assertGreaterEqual(arr[res+1], val)
 
 
 def my(val):
     print(val)
     
 class TestMy(unittest.TestCase):
-    #@unittest.skip('test')        
-    #@given(st.text())
-    #def test_my(self, val):
-    #    res = my(val)
-
-    @given(st.from_regex('^myregexp \d{2,3}$'))
-    def test_my(self, val):
+    import string
+    @unittest.skip('test')
+    #@given(st.from_regex('^myregexp \S{2,3}$'))
+    @settings(max_examples=100)
+    @given(st.text(min_size=3, max_size=100, alphabet=string.ascii_letters))
+    def test_strings(self, val):
         res = my(val)
 
+    @unittest.skip('test')
+    #@given(provisional.domains())
+    @given(provisional.urls())
+    def test_urls(self, val):
+        print(val)
+        res = ''
 
-    
+
 
 if __name__ == '__main__':
     unittest.main()
-
+    #input()
 # Запуск из командной строки: python -m unittest method_dichotomy_test.py
 
 """
