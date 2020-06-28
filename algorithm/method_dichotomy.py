@@ -21,6 +21,17 @@ def sequence_find_idx(arr, val):
 #                  datetime.datetime(2021, 1, 1, 0, 0))
 
 
+def sequence_find_val(arr, val, sorting=True):
+    """ Ф-ция возвращающая значение из массива, ближайшее к переданному"""
+    if sorting:
+        arr = sorted(arr)
+    idx = sequence_find_idx(arr, val)
+    if idx is None:
+        return None
+    else:
+        return arr[idx]
+
+
 def dichotomy_find_idx(arr, val):
     """ Ф-ция для поиска ближайшего большего значения в массиве и возвращяющая его индекс
         Поиск ведется методом дихотомии, т.е. деления массива пополам и поиска в необходимой части
@@ -46,6 +57,17 @@ def dichotomy_find_idx(arr, val):
             else:
                 idx_min = idx + 1
         step += 1
+
+
+def dichotomy_find_val(arr, val, sorting=True):
+    """ Ф-ция возвращающая значение из массива, ближайшее к переданному"""
+    if sorting:
+        arr = sorted(arr)
+    idx = dichotomy_find_idx(arr, val)
+    if idx is None:
+        return None
+    else:
+        return arr[idx]
 
 
 def sequence_find_idx_test():
