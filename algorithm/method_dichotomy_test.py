@@ -9,11 +9,12 @@ from method_dichotomy import dichotomy_find_idx, sequence_find_idx
 
 curdir = os.path.abspath(os.path.dirname(__file__))
 #os.chdir(curdir)
-print(curdir)
+print('Папка со скриптом:', curdir)
+print('Рабочая папка:', os.getcwd())
 
 class TestDichotomyFind(unittest.TestCase):
 
-    @unittest.skip('test')
+    #@unittest.skip('test')
     #@settings(database=None)
     @given(st.lists(st.integers()), st.integers())
     def test_dichotomy_find_idx_int(self, arr, val):
